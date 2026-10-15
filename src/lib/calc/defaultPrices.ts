@@ -22,9 +22,9 @@ export interface GlassPriceRow {
 export const DEFAULT_COMPANY_CONFIG: CompanyConfig = {
   companyName: 'Laura Solution S.A.C.',
   commercialName: 'LAURA SOLUTION - Carpintería en Aluminio & Vidrio Templado',
-  ruc: '20608945123',
-  phones: ['912 791 992', '946 330 459'],
-  instagram: '@vidrerialaura',
+  ruc: '10743370924',
+  phones: ['912 791 992'],
+  instagram: '@serviciolauraglass',
   address: 'Lima, Perú',
   terms: [
     'Precios expresados en Soles (S/) e incluyen IGV salvo indicación.',

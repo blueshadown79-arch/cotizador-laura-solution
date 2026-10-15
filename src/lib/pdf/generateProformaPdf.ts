@@ -172,41 +172,43 @@ export function generateProformaPdf(
   doc.setTextColor(230, 243, 250);
   doc.text('CARPINTERÍA EN ALUMINIO & VIDRIO TEMPLADO', textLeftX, currentY + 16.5);
 
-  const phonesStr = (company.phones && company.phones.length > 0) ? company.phones.join(' / ') : '912 791 992 / 946 330 459';
-  const igStr = company.instagram || '@vidrierialaura';
+  const rucStr = company.ruc || '10743370924';
+  const phoneStr = (company.phones && company.phones.length > 0) ? company.phones[0] : '912 791 992';
+  const igStr = company.instagram || '@serviciolauraglass';
   const addressStr = company.address || 'Lima, Perú';
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.8);
+  doc.setFontSize(6.7);
   doc.setTextColor(215, 230, 245);
-  doc.text(`Tels: ${phonesStr} | IG: ${igStr} | ${addressStr}`, textLeftX, currentY + 22.5);
+  doc.text(`RUC: ${rucStr} | Tel: ${phoneStr} | IG: ${igStr} | ${addressStr}`, textLeftX, currentY + 22.2);
 
-  // Tarjeta integrada a la derecha: PROFORMA COMERCIAL
-  const cardW = 50;
-  const cardH = 21;
+  // Tarjeta integrada a la derecha: PROFORMA COMERCIAL (3 líneas oficiales)
+  const cardW = 54;
+  const cardH = 21.5;
   const cardX = pageWidth - margin - cardW - 4;
-  const cardY = currentY + 3.8;
+  const cardY = currentY + 3.2;
+  const cardCenterX = cardX + cardW / 2;
+
   doc.setFillColor(colorRightCard[0], colorRightCard[1], colorRightCard[2]);
   doc.roundedRect(cardX, cardY, cardW, cardH, 2.0, 2.0, 'F');
 
-  doc.setTextColor(220, 235, 250);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.2);
-  doc.text('PROFORMA COMERCIAL', cardX + cardW / 2, cardY + 5.5, { align: 'center' });
-
+  // Línea 1: R.U.C. 10743370924 (en negrita, 9.5pt)
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
-  const quoteCode = client.quoteNumber?.startsWith('N°') ? client.quoteNumber : `N° ${client.quoteNumber || 'PRO-0001'}`;
-  doc.text(quoteCode, cardX + cardW / 2, cardY + 11.5, { align: 'center' });
+  doc.setFontSize(9.5);
+  doc.text(`R.U.C. ${rucStr}`, cardCenterX, cardY + 5.5, { align: 'center' });
 
-  // Fecha y validez
-  const formattedDate = client.quoteDate
-    ? (client.quoteDate.includes('-') ? client.quoteDate.split('-').reverse().join('/') : client.quoteDate)
-    : new Date().toLocaleDateString('es-PE');
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.0);
-  doc.setTextColor(225, 240, 252);
-  doc.text(`FECHA: ${formattedDate} | VALIDEZ: ${client.validityDays || 15} DÍAS`, cardX + cardW / 2, cardY + 17.5, { align: 'center' });
+  // Línea 2: PROFORMA COMERCIAL (en negrita, 7.5pt)
+  doc.setTextColor(220, 235, 250);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.text('PROFORMA COMERCIAL', cardCenterX, cardY + 11.2, { align: 'center' });
+
+  // Línea 3: Código correlativo en grande (ej. PRO-0001)
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11.5);
+  const quoteCode = client.quoteNumber || 'PRO-0001';
+  doc.text(quoteCode, cardCenterX, cardY + 17.5, { align: 'center' });
 
   currentY += headerH + 3.5;
 
@@ -248,6 +250,10 @@ export function generateProformaPdf(
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.2);
   doc.text('DETALLES DE EMISIÓN', rightColX, currentY + 6.0);
+
+  const formattedDate = client.quoteDate
+    ? (client.quoteDate.includes('-') ? client.quoteDate.split('-').reverse().join('/') : client.quoteDate)
+    : new Date().toLocaleDateString('es-PE');
 
   doc.setFontSize(8.0);
   doc.setFont('helvetica', 'normal');
@@ -462,11 +468,16 @@ export function generateProformaPdf(
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.8);
 
-    const footerLine1 = 'Documento informativo de cotización (Proforma). Precios sujetos a verificación técnica de';
-    const footerLine2 = 'medidas en obra. | LAURA SOLUTION - Lima, Perú';
+    const rucVal = company.ruc || '10743370924';
+    const phoneVal = (company.phones && company.phones.length > 0) ? company.phones[0] : '912 791 992';
+    const igVal = company.instagram || '@serviciolauraglass';
+    const addressVal = company.address || 'Lima, Perú';
 
-    doc.text(footerLine1, pageWidth / 2, pageHeight - 11, { align: 'center' });
-    doc.text(footerLine2, pageWidth / 2, pageHeight - 7, { align: 'center' });
+    const footerLine1 = 'Documento informativo de cotización (Proforma). Precios sujetos a verificación técnica de medidas en obra.';
+    const footerLine2 = `LAURA SOLUTION - RUC: ${rucVal} | Tel: ${phoneVal} | IG: ${igVal} - ${addressVal}`;
+
+    doc.text(footerLine1, pageWidth / 2, pageHeight - 10.5, { align: 'center' });
+    doc.text(footerLine2, pageWidth / 2, pageHeight - 6.8, { align: 'center' });
   }
 
   // Descargar archivo PDF con nombre intuitivo

@@ -435,21 +435,21 @@ export const AdminSettingsModal: React.FC<AdminSettingsModalProps> = ({
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Teléfono 1</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">RUC</label>
                       <input
                         type="text"
-                        value={localCompany.phones[0] || ''}
-                        onChange={(e) => setLocalCompany({ ...localCompany, phones: [e.target.value, localCompany.phones[1] || ''] })}
-                        className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500"
+                        value={localCompany.ruc || '10743370924'}
+                        onChange={(e) => setLocalCompany({ ...localCompany, ruc: e.target.value })}
+                        className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 font-mono"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Teléfono 2</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Teléfono Principal</label>
                       <input
                         type="text"
-                        value={localCompany.phones[1] || ''}
-                        onChange={(e) => setLocalCompany({ ...localCompany, phones: [localCompany.phones[0] || '', e.target.value] })}
-                        className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500"
+                        value={localCompany.phones?.[0] || '912 791 992'}
+                        onChange={(e) => setLocalCompany({ ...localCompany, phones: [e.target.value] })}
+                        className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 font-mono"
                       />
                     </div>
                   </div>
@@ -458,7 +458,7 @@ export const AdminSettingsModal: React.FC<AdminSettingsModalProps> = ({
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Instagram</label>
                     <input
                       type="text"
-                      value={localCompany.instagram}
+                      value={localCompany.instagram || '@serviciolauraglass'}
                       onChange={(e) => setLocalCompany({ ...localCompany, instagram: e.target.value })}
                       className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500"
                     />

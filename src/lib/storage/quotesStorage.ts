@@ -52,7 +52,20 @@ export function deleteQuoteRecord(id: string): void {
 export function getStoredCompanyConfig(): CompanyConfig {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_COMPANY);
-    return raw ? { ...DEFAULT_COMPANY_CONFIG, ...JSON.parse(raw) } : DEFAULT_COMPANY_CONFIG;
+    if (!raw) return DEFAULT_COMPANY_CONFIG;
+    const parsed = JSON.parse(raw);
+    const config: CompanyConfig = { ...DEFAULT_COMPANY_CONFIG, ...parsed };
+    // Migración automática a los datos corporativos oficiales
+    if (!config.ruc || config.ruc === '20608945123') {
+      config.ruc = '10743370924';
+    }
+    if (!config.instagram || config.instagram === '@vidrerialaura' || config.instagram === '@vidrierialaura') {
+      config.instagram = '@serviciolauraglass';
+    }
+    if (!config.phones || config.phones.length > 1 || config.phones.includes('946 330 459')) {
+      config.phones = ['912 791 992'];
+    }
+    return config;
   } catch (e) {
     return DEFAULT_COMPANY_CONFIG;
   }

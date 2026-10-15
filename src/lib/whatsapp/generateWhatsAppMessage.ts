@@ -47,8 +47,10 @@ export function generateWhatsAppMessage(
   msg += `• 60% adelanto al confirmar / 40% contra entrega e instalación.\n`;
   msg += `• Fabricación e instalación en 5 a 8 días hábiles.\n\n`;
 
-  msg += `📞 *Contacto:* ${company.phones.join(' / ')}\n`;
-  msg += `📸 *Instagram:* ${company.instagram}\n`;
+  const phoneStr = (company.phones && company.phones.length > 0) ? company.phones[0] : '912 791 992';
+  const igStr = company.instagram || '@serviciolauraglass';
+  msg += `📞 *Tel:* ${phoneStr}\n`;
+  msg += `📸 *Instagram:* ${igStr}\n`;
   msg += `_¡Gracias por confiar en Laura Solution!_`;
 
   return msg;
